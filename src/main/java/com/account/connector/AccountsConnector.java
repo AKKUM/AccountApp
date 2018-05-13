@@ -94,4 +94,12 @@ public class AccountsConnector {
     	
 	}
 
+	public JsonUtil getJsUtil() {
+		return jsUtil;
+	}
+
+	public void setJsUtil(JsonUtil jsUtil) {
+		this.jsUtil = jsUtil;
+	}
+
 }
