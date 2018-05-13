@@ -14,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.account.model.Account;
 import com.account.test.util.FileUtil;
+import com.example.connector.AccountConnector;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -61,26 +62,62 @@ public class AccountsConnectorTest {
 
 	@Test
 	public void getAddAccountsSuccess() throws IOException	{
+		AccountsConnector acctConnector = new AccountsConnector("accountTest.json");
+		Account acct = new Account();
+		acct.setId(111);acct.setFirstName("FirstName");acct.setSecondName("LastName");acct.setAccountNumber("0000");
 		
+		String result = acctConnector.addAccount(acct);
+		assertEquals(result,addSuucess);
 	}
 	@Test
 	public void getAddAccountsFailed() throws IOException {
-		
+		AccountsConnector acctConnector = new AccountsConnector("accountTest1.json");
+		try {
+			Account acct = new Account();
+			acct.setId(111);acct.setFirstName("FirstName");acct.setSecondName("LastName");acct.setAccountNumber("0000");
+			String result = acctConnector.addAccount(acct);
+			fail("File Not Found Exception");
+		} catch (FileNotFoundException e) {
+			assertTrue(true);
+		} catch (Exception e) {
+			fail("Caught Other Exception");
+		}
 	}
 	
 	@Test
 	public void deleteAccountsSuccess() throws IOException{
-
+		AccountsConnector acctConnector = new AccountsConnector("accountTest.json");
+		Account acct = new Account();
+		acct.setId(111);acct.setFirstName("FirstName");acct.setSecondName("LastName");acct.setAccountNumber("0000");
+		String added = acctConnector.addAccount(acct);
+		String result = acctConnector.deleteAccount(111);
+		assertEquals(result,removeSuucess);
 	}
 	
 	@Test
 	public void deleteAccountsAccountNOTFound() throws IOException{
-
+		AccountsConnector acctConnector = new AccountsConnector("accountTest.json");
+		Account acct = new Account();
+		acct.setId(111);acct.setFirstName("FirstName");acct.setSecondName("LastName");acct.setAccountNumber("0000");
+		String added = acctConnector.addAccount(acct);
+		String result = acctConnector.deleteAccount(1234);
+		assertEquals(result,removeFail);
 	}
 	
 	@Test
 	public void deleteAccountsFailed() throws IOException{
-
+		AccountsConnector acctConnector = new AccountsConnector("accountTest1.json");
+		try {
+			Account acct = new Account();
+			acct.setId(111);acct.setFirstName("FirstName");acct.setSecondName("LastName");acct.setAccountNumber("0000");
+			String added = acctConnector.addAccount(acct);
+			String result = acctConnector.deleteAccount(111);
+			fail("File Not Found Exception");
+		} catch (FileNotFoundException e) {
+			assertTrue(true);
+		} catch (Exception e) {
+			fail("Caught Other Exception");
+		}			
 	}
 
 
