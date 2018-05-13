@@ -14,6 +14,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.account.model.Account;
 import com.account.test.util.FileUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 
 
@@ -32,7 +35,15 @@ public class AccountsConnectorTest {
 		String jsonData = fileUtil.getJsonContentFromFile();
 		AccountsConnector acctConnector = new AccountsConnector("accountTest.json");
 		List<Account> result = acctConnector.getAllAccounts();
-
+    	ObjectMapper objectMapper = new ObjectMapper();
+    	//Set pretty printing of json
+    	objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+		TypeReference<List<Account>> mapType = new TypeReference<List<Account>>() {};
+    	List<Account> jsonToAccountList = objectMapper.readValue(jsonData, mapType);
+    	Account acct = jsonToAccountList.get(0);
+    	assertEquals(jsonToAccountList.size(), result.size());
+    	assertEquals(acct.getId(),1);
+    	assertEquals(acct.getFirstName(),"John");
 	}
 	
 	@Test
