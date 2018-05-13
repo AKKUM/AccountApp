@@ -12,7 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.account.util.FileUtil;
+import com.account.model.Account;
+import com.account.test.util.FileUtil;
 
 
 
@@ -29,14 +30,14 @@ public class AccountsConnectorTest {
 	public void getAllAccountsSuccess() throws IOException {
 		FileUtil fileUtil = new FileUtil("accountTest.json");
 		String jsonData = fileUtil.getJsonContentFromFile();
-		AccountConnector acctConnector = new AccountConnector("accountTest.json");
+		AccountsConnector acctConnector = new AccountsConnector("accountTest.json");
 		List<Account> result = acctConnector.getAllAccounts();
 
 	}
 	
 	@Test
 	public void getAllAccountsFailed() throws IOException {
-		AccountConnector acctConnector = new AccountConnector("accountTest1.json");
+		AccountsConnector acctConnector = new AccountsConnector("accountTest1.json");
 		try {
 			List<Account> result = acctConnector.getAllAccounts();
 			fail("File Not Found Exception");
