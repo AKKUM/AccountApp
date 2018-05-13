@@ -6,10 +6,16 @@ import static org.junit.Assert.fail;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import com.account.util.FileUtil;
+
+
+
 
 
 @RunWith(MockitoJUnitRunner.StrictStubs.class)
@@ -21,12 +27,24 @@ public class AccountsConnectorTest {
 	
 	@Test
 	public void getAllAccountsSuccess() throws IOException {
-		
+		FileUtil fileUtil = new FileUtil("accountTest.json");
+		String jsonData = fileUtil.getJsonContentFromFile();
+		AccountConnector acctConnector = new AccountConnector("accountTest.json");
+		List<Account> result = acctConnector.getAllAccounts();
+
 	}
 	
 	@Test
 	public void getAllAccountsFailed() throws IOException {
-		
+		AccountConnector acctConnector = new AccountConnector("accountTest1.json");
+		try {
+			List<Account> result = acctConnector.getAllAccounts();
+			fail("File Not Found Exception");
+		} catch (FileNotFoundException e) {
+			assertTrue(true);
+		} catch (Exception e) {
+			fail("Caught Other Exception");
+		}
 	}
 
 	@Test
